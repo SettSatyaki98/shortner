@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block meta_description %}Bitly — Your link management dashboard.{% endblock %}
+{% block title %}Bitly — Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Dashboard Wrapper -->
+    <div class="dashboard-wrapper">
+        <header class="dashboard-header">
+            <div class="user-info">
+                <div class="avatar">{{ user.name[0] | upper }}</div>
+                <div class="user-details">
+                    <h1>Welcome back, {{ user.name }}!</h1>
+                    <p class="user-email">{{ user.email }}</p>
+                </div>
+            </div>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Sign Out</a>
+        </header>
+
+        <!-- Shortener Form -->
+        <main class="dashboard-main">
+            <div class="shortener-card">
+                <form action="{{ url_for('dashboard') }}" method="POST" class="shortener-form">
+                    <div class="form-group flex-group">
+                        <div class="input-wrapper expand">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            <input type="text" name="long_url" placeholder="Enter your long URL here" required autofocus autocomplete="off">
+                        </div>
+                        <button type="submit" class="btn-primary shorten-btn">Shorten</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Links List -->
+            <div class="links-section">
+                <h2>Your Links</h2>
+                {% if urls %}
+                    <div class="links-grid">
+                        {% for url in urls %}
+                        <div class="link-card">
+                            <div class="link-header">
+                                <a href="{{ host_url }}{{ url.short_code }}" class="short-code" target="_blank">{{ host_url }}{{ url.short_code }}</a>
+                                <span class="link-date">{{ url.sysdate[:10] }}</span>
+                            </div>
+                            <div class="link-body">
+                                <p class="long-url" title="{{ url.long_url }}">{{ url.long_url }}</p>
+                            </div>
+                            <div class="link-footer">
+                                <a href="{{ host_url }}{{ url.short_code }}" class="btn-outline" target="_blank">Visit Target</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.22 19L11 19C7.13 19 4 15.87 4 12C4 8.13 7.13 5 11 5L13.22 5"></path><path d="M10.78 5L13 5C16.87 5 20 8.13 20 12C20 15.87 16.87 19 13 19L10.78 19"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                        <p>No links yet. Start shortening above!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+{% endblock %}

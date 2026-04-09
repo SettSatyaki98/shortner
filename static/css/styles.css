@@ -1,0 +1,640 @@
+/* ============================================
+   Bitly — Design System & Shared Styles
+   ============================================ */
+
+/* --- Reset --- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* --- Design Tokens --- */
+:root {
+    --bg-gradient-start: #0f0c29;
+    --bg-gradient-mid: #302b63;
+    --bg-gradient-end: #24243e;
+    --card-bg: rgba(255, 255, 255, 0.06);
+    --card-border: rgba(255, 255, 255, 0.12);
+    --input-bg: rgba(255, 255, 255, 0.08);
+    --input-border: rgba(255, 255, 255, 0.15);
+    --input-focus-border: #7c6ef0;
+    --accent: #7c6ef0;
+    --accent-hover: #6a5ae0;
+    --text-primary: #f0eef6;
+    --text-secondary: #a9a4c0;
+    --text-muted: #706b8a;
+    --error: #f06e6e;
+    --success: #6ef0a8;
+}
+
+/* --- Base --- */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ============================================
+   Background Orbs
+   ============================================ */
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.orb-1 {
+    width: 400px;
+    height: 400px;
+    background: #7c6ef0;
+    top: -100px;
+    left: -100px;
+}
+
+.orb-2 {
+    width: 350px;
+    height: 350px;
+    background: #e06ec4;
+    bottom: -80px;
+    right: -80px;
+    animation-delay: -3s;
+}
+
+.orb-3 {
+    width: 250px;
+    height: 250px;
+    background: #6ec4f0;
+    top: 50%;
+    left: 60%;
+    animation-delay: -5s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(30px, -30px) scale(1.05); }
+    66%      { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* ============================================
+   Card Container
+   ============================================ */
+.auth-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+    margin: auto;
+}
+
+.auth-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 44px 36px 36px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ============================================
+   Brand Header
+   ============================================ */
+.brand {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.brand-icon {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--accent), #e06ec4);
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 24px;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(124, 110, 240, 0.4);
+}
+
+.brand h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.brand p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 6px;
+}
+
+/* ============================================
+   Form Elements
+   ============================================ */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper > svg.input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: var(--text-muted);
+    transition: color 0.2s;
+    pointer-events: none;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 13px 14px 13px 44px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.form-group input::placeholder {
+    color: var(--text-muted);
+}
+
+.form-group input:focus {
+    border-color: var(--input-focus-border);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(124, 110, 240, 0.15);
+}
+
+.input-wrapper:focus-within > svg.input-icon {
+    color: var(--accent);
+}
+
+/* Password toggle */
+.toggle-password {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    transition: color 0.2s;
+}
+
+.toggle-password:hover {
+    color: var(--text-secondary);
+}
+
+/* Password strength meter */
+.password-strength {
+    margin-top: 10px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--input-bg);
+    overflow: hidden;
+}
+
+.password-strength .strength-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 2px;
+    transition: width 0.35s ease, background 0.35s ease;
+}
+
+.strength-label {
+    font-size: 12px;
+    margin-top: 6px;
+    color: var(--text-muted);
+    min-height: 16px;
+}
+
+/* ============================================
+   Form Extras (remember me, forgot password)
+   ============================================ */
+.form-extras {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    font-size: 13px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.remember-me input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--input-border);
+    border-radius: 5px;
+    background: var(--input-bg);
+    cursor: pointer;
+    position: relative;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.remember-me input[type="checkbox"]:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.remember-me input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 5px;
+    height: 9px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.forgot-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.forgot-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent), #6a5ae0);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.25s, opacity 0.2s;
+    box-shadow: 0 4px 20px rgba(124, 110, 240, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 28px rgba(124, 110, 240, 0.45);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+   Divider & Links
+   ============================================ */
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 24px 0;
+    color: var(--text-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--input-border);
+}
+
+.switch-link {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.switch-link a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.switch-link a:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   Flash Messages (server-side notifications)
+   ============================================ */
+.flash-msg {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    padding: 14px 44px 14px 22px;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    z-index: 100;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: flashIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both,
+               flashOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) 4s both;
+}
+
+.flash-msg.success {
+    background: linear-gradient(135deg, #2d8a5e, #1e6b47);
+}
+
+.flash-msg.error {
+    background: linear-gradient(135deg, #c0392b, #962d22);
+}
+
+.flash-close {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.2s;
+}
+
+.flash-close:hover {
+    color: #fff;
+}
+
+@keyframes flashIn {
+    from { opacity: 0; transform: translateX(calc(100% + 40px)); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes flashOut {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(calc(100% + 40px)); }
+}
+
+/* ============================================
+   Dashboard
+   ============================================ */
+.dashboard-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--card-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 24px 32px;
+    margin-bottom: 32px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.dashboard-header .avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #e06ec4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(124, 110, 240, 0.3);
+}
+
+.dashboard-header h1 {
+    font-size: 20px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.dashboard-header .user-email {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.btn-logout {
+    padding: 10px 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.shortener-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 32px rgba(124, 110, 240, 0.15);
+}
+
+.flex-group {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 0;
+}
+
+.input-wrapper.expand {
+    flex: 1;
+}
+
+.shorten-btn {
+    width: auto;
+    padding: 13px 32px;
+    flex-shrink: 0;
+}
+
+.links-section h2 {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding-left: 8px;
+}
+
+.links-grid {
+    display: grid;
+    gap: 16px;
+}
+
+.link-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 20px;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.link-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.link-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.short-code {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.short-code:hover {
+    text-decoration: underline;
+}
+
+.link-date {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.link-body {
+    margin-bottom: 16px;
+}
+
+.long-url {
+    color: var(--text-secondary);
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-outline {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-outline:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed var(--card-border);
+    border-radius: 16px;
+    color: var(--text-muted);
+}
+
+.empty-state svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+/* ============================================
+   Utility
+   ============================================ */
+.hidden { display: none !important; }
