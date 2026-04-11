@@ -3,6 +3,9 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from config import templates
 from utils import flash, hash_password
 from db import get_user_by_email, create_user
+from logger import get_logger
+
+logger = get_logger(__name__)
 
 router = APIRouter()
 
@@ -22,9 +25,11 @@ async def login_post(request: Request, email: str = Form(""), password: str = Fo
     user = get_user_by_email(email)
     if user and user.get('password') == hash_password(password):
         request.session["user"] = {"name": user["name"], "email": user["email"]}
+        logger.info(f"User '{email}' logged in successfully.")
         flash(request, 'Login successful!', 'success')
         return RedirectResponse(url="/dashboard", status_code=303)
     
+    logger.warning(f"Failed login attempt for '{email}'.")
     flash(request, 'Invalid email or password.', 'error')
     return templates.TemplateResponse("login.html", {"request": request})
 
@@ -56,6 +61,7 @@ async def signup_post(request: Request, name: str = Form(""), email: str = Form(
         return templates.TemplateResponse("signup.html", {"request": request})
 
     create_user(email, name, hash_password(password))
+    logger.info(f"New user registered: '{email}'")
 
     request.session["user"] = {"name": name, "email": email}
     flash(request, 'Account created successfully!', 'success')

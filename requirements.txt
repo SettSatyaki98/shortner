@@ -1,6 +1,6 @@
 fastapi
 uvicorn
-boto3
+boto3[crt]
 jinja2
 python-multipart
 itsdangerous

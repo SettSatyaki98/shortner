@@ -5,6 +5,9 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from config import templates
 from utils import flash
 from db import fetch_user_urls_desc, create_url, get_url_by_short_code
+from logger import get_logger
+
+logger = get_logger(__name__)
 
 router = APIRouter()
 
@@ -50,6 +53,7 @@ async def dashboard_post(request: Request, long_url: str = Form("")):
     sysdate = datetime.datetime.utcnow().isoformat()
     
     create_url(short_code, long_url, user['email'], sysdate)
+    logger.info(f"User '{user['email']}' created short code '{short_code}' for '{long_url}'")
     
     flash(request, 'URL shortened successfully!', 'success')
     return RedirectResponse(url="/dashboard", status_code=303)
@@ -61,7 +65,9 @@ async def redirect_short_url(request: Request, short_code: str):
         
     url_item = get_url_by_short_code(short_code)
     if url_item:
+        logger.info(f"Redirecting short code '{short_code}' to '{url_item['long_url']}'")
         return RedirectResponse(url=url_item['long_url'], status_code=303)
         
+    logger.warning(f"Short code '{short_code}' not found. Redirecting to home.")
     flash(request, 'Short URL not found.', 'error')
     return RedirectResponse(url="/", status_code=303)

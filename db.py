@@ -2,6 +2,9 @@ import os
 import boto3
 from botocore.exceptions import ClientError
 from boto3.dynamodb.conditions import Key
+from logger import get_logger
+
+logger = get_logger(__name__)
 
 # 1. Config and Resource Instantiation
 dynamodb_kwargs = {}
@@ -24,7 +27,7 @@ def setup_dynamodb_tables():
         )
     except ClientError as e:
         if e.response['Error']['Code'] != 'ResourceInUseException':
-            print(f"Error creating bitly-users: {e}")
+            logger.error(f"Error creating bitly-users: {e}")
 
     try:
         dynamodb.create_table(
@@ -49,7 +52,7 @@ def setup_dynamodb_tables():
         )
     except ClientError as e:
         if e.response['Error']['Code'] != 'ResourceInUseException':
-            print(f"Error creating bitly-urls: {e}")
+            logger.error(f"Error creating bitly-urls: {e}")
 
 # 3. Data Access Wrappers
 
@@ -76,7 +79,7 @@ def fetch_user_urls_desc(email: str):
         )
         return response.get('Items', [])
     except ClientError as e:
-        print(f"Error fetching URLs: {e}")
+        logger.error(f"Error fetching URLs for {email}: {e}")
         return []
 
 def create_url(short_code: str, long_url: str, email: str, sysdate: str):

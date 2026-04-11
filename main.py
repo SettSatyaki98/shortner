@@ -9,12 +9,18 @@ from config import templates
 from utils import get_flashed_messages
 from db import setup_dynamodb_tables
 from routers import auth, urls
+from logger import get_logger
+
+logger = get_logger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    logger.info("Initializing FastAPI application...")
     # Try to initialize the backend tables
     setup_dynamodb_tables()
+    logger.info("Startup complete. DynamoDB tables verified.")
     yield
+    logger.info("Shutting down FastAPI application.")
 
 app = FastAPI(lifespan=lifespan)
 
