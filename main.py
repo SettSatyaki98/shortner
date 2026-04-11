@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 
-from config import templates
+from config import templates, HOST, PORT, RELOAD
 from utils import get_flashed_messages
 from db import setup_dynamodb_tables
 from routers import auth, urls
@@ -39,4 +39,4 @@ app.include_router(urls.router)
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run("main:app", host="127.0.0.1", port=5000, reload=True)
+    uvicorn.run("main:app", host=HOST, port=PORT, reload=RELOAD)

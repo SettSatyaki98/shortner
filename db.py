@@ -3,11 +3,12 @@ import boto3
 from botocore.exceptions import ClientError
 from boto3.dynamodb.conditions import Key
 from logger import get_logger
+from config import AWS_REGION
 
 logger = get_logger(__name__)
 
 # 1. Config and Resource Instantiation
-dynamodb_kwargs = {}
+dynamodb_kwargs = {'region_name': AWS_REGION}
 if os.getenv("DYNAMODB_ENDPOINT_URL"):
     dynamodb_kwargs['endpoint_url'] = os.getenv("DYNAMODB_ENDPOINT_URL")
 
