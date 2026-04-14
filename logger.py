@@ -19,6 +19,7 @@ class IntervalFileHandler(logging.Handler):
         dir_path = os.path.join(self.base_dir, date_str, hour_str)
         os.makedirs(dir_path, exist_ok=True)
         
+        
         file_name = f"{minute:02d}.log"
         return os.path.join(dir_path, file_name)
 
